@@ -1,7 +1,7 @@
-(() => {
+(run = () => {
   const game = document.getElementById('game'), grid = document.getElementById('grid');
   const rows = 10, cols = 30;
-  const dirs = { ArrowUp: 'U', ArrowDown: 'D', ArrowLeft: 'L', ArrowRight: 'R' };
+  const dirs = { ArrowUp: 'U', ArrowDown: 'D', ArrowLeft: 'L', ArrowRight: 'R', Up: 'U', Down: 'D', Left: 'L', Right: 'R' };
   const byArr = arr => e => e[0] === arr[0] && e[1] === arr[1];
   const rnd = (min, max) => Math.floor(Math.random() * max) + min;
   const rndPos = taken => {
@@ -16,8 +16,8 @@
   const say = msg => game.innerHTML = (msg.padEnd(20) + 'score: ' + score);
   const empty = pos => matrix[pos[0]][pos[1]] = '∙';
   const draw = end => {
-    snake.forEach(([r, c]) => matrix[r][c] = '●');
-    if (end) matrix[snake[0][0]][snake[0][1]] = 'X';
+    snake.forEach(([r, c], i) => matrix[r][c] = i === 0 ? '<span style="color:blue">●</span>' : '●');
+    if (end) matrix[snake[0][0]][snake[0][1]] = '<span style="color:red">X</span>';
     food.forEach(([r, c]) => matrix[r][c] = '○');
     grid.innerHTML = matrix.reduce((txt, row) => txt + row.join('') + '\n', '');
     say(end ? 'GAME OVER' : 'Snake');
@@ -47,10 +47,11 @@
     draw();
   };
   window.addEventListener('keydown', e => {
-    if (!int) int = setInterval(() => move(), 150);
+    if (!int) int = setInterval(() => move(), 250);
     const ndir = dirs[e.key];
     if (!ndir || dir === ndir) return;
     dir = ndir;
   });
+  grid.addEventListener('click', run);
   draw();
 })();
