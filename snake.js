@@ -47,7 +47,7 @@
     draw();
   };
   window.addEventListener('keydown', e => {
-    if (!int) int = setInterval(() => move(), 250);
+    if (!int) int = setInterval(() => move(), 150);
     const ndir = dirs[e.key];
     if (!ndir || dir === ndir) return;
     dir = ndir;
